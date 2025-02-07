@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
+from pathlib import Path,os
+# from decouple import config
+from dotenv import load_dotenv
+# import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,14 +23,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-w8!lwz2a0e*+5oj$)(q2k1-vz#_4ti6q+^3x3pybzhg0f0)-^v'
+#SECRET_KEY = config('SECRET_KEY')
+
+SECRET_KEY ='django-insecure-w8!lwz2a0e*+5oj$)(q2k1-vz#_4ti6q+^3x3pybzhg0f0)-^v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,6 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'backend',
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -75,10 +86,22 @@ WSGI_APPLICATION = 'denisboutique.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'boutique_db',
+        'USER': 'postgres',
+        'PASSWORD': '1234',
+        'HOST':'127.0.0.1',
+        'PORT': '5432',
     }
 }
+
+
+load_dotenv()
+
+# DATABASES = {
+#      'default': dj_database_url.parse(config('DATABASE_URL'))
+#  }
+
 
 
 # Password validation
@@ -116,6 +139,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'static')) ]
+MEDIA_URL = 'images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'backendimages')
+
+MEDIA_URL = 'images/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
